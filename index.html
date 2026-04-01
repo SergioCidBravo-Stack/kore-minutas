@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minuta #001 — Reunión de Equipo KORE</title>
+<meta name="description" content="Primera reunión de coordinación — Desarrollo, Estrategia Comercial y Audiovisual · 31 Marzo 2026">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F8FAFC;
+    color: #0F172A;
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 16px 80px;
+  }
+
+  /* Header */
+  .header {
+    background: #0F172A;
+    border-radius: 0 0 24px 24px;
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6366F1, #818CF8, #A5B4FC, #818CF8, #6366F1);
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #fff;
+  }
+  .logo span { color: #A5B4FC; }
+  .badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 10px;
+  }
+  .badge-id {
+    background: rgba(165,180,252,0.15);
+    color: #C7D2FE;
+  }
+  .badge-status {
+    background: rgba(251,191,36,0.2);
+    color: #FCD34D;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 5px 12px;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    color: #94A3B8;
+    font-weight: 400;
+  }
+
+  /* Meta bar */
+  .meta-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 600px) {
+    .meta-bar { grid-template-columns: 1fr; }
+  }
+  .meta-item {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+  }
+  .meta-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94A3B8;
+    margin-bottom: 4px;
+  }
+  .meta-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0F172A;
+  }
+
+  /* Cards */
+  .card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+  }
+  @media (max-width: 600px) {
+    .card { padding: 20px 16px; }
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #64748B;
+    margin-bottom: 20px;
+  }
+
+  /* Attendees */
+  .attendees-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .attendee {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #F8FAFC;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 200px;
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .attendee-info { min-width: 0; }
+  .attendee-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F172A;
+  }
+  .attendee-role {
+    font-size: 12px;
+    color: #64748B;
+  }
+  .attendee-absent {
+    opacity: 0.5;
+  }
+  .absent-badge {
+    font-size: 10px;
+    font-weight: 600;
+    color: #94A3B8;
+    background: #F1F5F9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 8px;
+  }
+
+  /* Responsibility bars */
+  .responsibility {
+    margin-top: 24px;
+  }
+  .responsibility h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .resp-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .resp-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    width: 90px;
+    flex-shrink: 0;
+  }
+  .resp-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: #F1F5F9;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .resp-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+  .resp-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748B;
+    width: 60px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Sections */
+  .section-card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+  }
+  @media (max-width: 600px) {
+    .section-card { padding: 20px 16px; }
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .section-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #6366F1;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-title-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tag-dev { background: #EEF2FF; color: #4F46E5; }
+  .tag-comercial { background: #FFF7ED; color: #C2410C; }
+  .tag-audiovisual { background: #ECFDF5; color: #059669; }
+  .priority-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .priority-critical { background: #FEE2E2; color: #DC2626; }
+  .priority-alta { background: #FFEDD5; color: #C2410C; }
+  .priority-normal { background: #FEF9C3; color: #A16207; }
+  .priority-media { background: #FEF9C3; color: #A16207; }
+  .priority-baja { background: #DCFCE7; color: #16A34A; }
+
+  /* Section content */
+  .section-content {
+    font-size: 15px;
+    color: #334155;
+    line-height: 1.7;
+  }
+  .section-content strong {
+    color: #0F172A;
+    font-weight: 600;
+  }
+  .section-content p { margin-bottom: 12px; }
+  .section-content ul, .section-content ol {
+    margin: 8px 0 12px 24px;
+  }
+  .section-content li { margin-bottom: 6px; }
+  .section-content blockquote {
+    border-left: 3px solid #6366F1;
+    padding: 12px 16px;
+    margin: 12px 0;
+    background: #F8FAFC;
+    border-radius: 0 8px 8px 0;
+    color: #475569;
+    font-style: italic;
+  }
+  .section-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .section-content th {
+    background: #F8FAFC;
+    font-weight: 600;
+    color: #0F172A;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid #E2E8F0;
+  }
+  .section-content td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #475569;
+  }
+
+  /* Agreements table */
+  .agreements-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .agreements-table th {
+    background: #F8FAFC;
+    font-weight: 600;
+    color: #64748B;
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 2px solid #E2E8F0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .agreements-table td {
+    padding: 14px;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: top;
+  }
+  .agreement-id {
+    font-weight: 700;
+    color: #6366F1;
+    font-size: 13px;
+    font-family: monospace;
+  }
+  .agreement-desc {
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .agreement-assignees {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .assignee-chip {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 8px;
+    background: #EEF2FF;
+    color: #4F46E5;
+    white-space: nowrap;
+  }
+  .deadline {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+  }
+  .status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  .status-en-progreso { background: #DBEAFE; color: #1D4ED8; }
+  .status-pendiente { background: #FEF9C3; color: #A16207; }
+  .status-completada { background: #DCFCE7; color: #16A34A; }
+
+  /* Mobile agreements cards */
+  @media (max-width: 700px) {
+    .agreements-table { display: none; }
+    .agreements-mobile { display: flex; flex-direction: column; gap: 12px; }
+  }
+  @media (min-width: 701px) {
+    .agreements-mobile { display: none; }
+  }
+  .agreement-card {
+    background: #F8FAFC;
+    border-radius: 12px;
+    padding: 16px;
+    border-left: 4px solid #6366F1;
+  }
+  .agreement-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .agreement-card-desc {
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  .agreement-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* Acceptance */
+  .acceptance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .acceptance-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .acceptance-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .acceptance-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F172A;
+    margin-bottom: 6px;
+  }
+  .acceptance-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 8px;
+  }
+  .acceptance-pending {
+    background: #FEF9C3;
+    color: #A16207;
+  }
+  .acceptance-accepted {
+    background: #DCFCE7;
+    color: #16A34A;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-pending { background: #F59E0B; }
+  .dot-accepted { background: #22C55E; }
+
+  /* Next meeting */
+  .next-meeting {
+    background: #EEF2FF;
+    border: 1px solid #C7D2FE;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 8px;
+  }
+  .next-meeting-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6366F1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .next-meeting-topics {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: #94A3B8;
+    font-size: 12px;
+  }
+  .footer a {
+    color: #6366F1;
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div class="logo">KOR<span>E</span></div>
+      <div class="badges">
+        <span class="badge badge-id">Minuta #001</span>
+        <span class="badge badge-status">En Revisi&oacute;n</span>
+      </div>
+    </div>
+    <h1>Reuni&oacute;n de Equipo KORE</h1>
+    <p class="subtitle">Primera reuni&oacute;n de coordinaci&oacute;n &mdash; Desarrollo, Estrategia Comercial y Audiovisual</p>
+  </header>
+
+  <!-- META BAR -->
+  <div class="meta-bar">
+    <div class="meta-item">
+      <div class="meta-label">Fecha</div>
+      <div class="meta-value">31 Marzo 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Hora</div>
+      <div class="meta-value">21:00 hrs</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Modalidad</div>
+      <div class="meta-value">Remota</div>
+    </div>
+  </div>
+
+  <!-- ATTENDEES -->
+  <div class="card">
+    <div class="card-title">Participantes</div>
+    <div class="attendees-grid">
+      <div class="attendee">
+        <div class="avatar" style="background:#6366F1">SC</div>
+        <div class="attendee-info">
+          <div class="attendee-name">Sergio Cid</div>
+          <div class="attendee-role">L&iacute;der de Desarrollo y Operaciones</div>
+        </div>
+      </div>
+      <div class="attendee">
+        <div class="avatar" style="background:#0EA5E9">CR</div>
+        <div class="attendee-info">
+          <div class="attendee-name">Crist&oacute;bal</div>
+          <div class="attendee-role">Estratega Audiovisual</div>
+        </div>
+      </div>
+      <div class="attendee attendee-absent">
+        <div class="avatar" style="background:#EA580C">VA</div>
+        <div class="attendee-info">
+          <div class="attendee-name">Val <span class="absent-badge">No asisti&oacute;</span></div>
+          <div class="attendee-role">Encargada del &Aacute;rea Comercial</div>
+        </div>
+      </div>
+      <div class="attendee attendee-absent">
+        <div class="avatar" style="background:#16A34A">CA</div>
+        <div class="attendee-info">
+          <div class="attendee-name">Carlos <span class="absent-badge">No asisti&oacute;</span></div>
+          <div class="attendee-role">Gesti&oacute;n de Ventas Directas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Responsibility bars -->
+    <div class="responsibility">
+      <h4>Carga de Responsabilidad</h4>
+      <div class="resp-row">
+        <div class="resp-name">Sergio</div>
+        <div class="resp-bar-bg"><div class="resp-bar" style="width:100%;background:#6366F1"></div></div>
+        <div class="resp-count">6 acuerdos</div>
+      </div>
+      <div class="resp-row">
+        <div class="resp-name">Crist&oacute;bal</div>
+        <div class="resp-bar-bg"><div class="resp-bar" style="width:67%;background:#0EA5E9"></div></div>
+        <div class="resp-count">4 acuerdos</div>
+      </div>
+      <div class="resp-row">
+        <div class="resp-name">Val</div>
+        <div class="resp-bar-bg"><div class="resp-bar" style="width:17%;background:#EA580C"></div></div>
+        <div class="resp-count">1 acuerdo</div>
+      </div>
+      <div class="resp-row">
+        <div class="resp-name">Carlos</div>
+        <div class="resp-bar-bg"><div class="resp-bar" style="width:17%;background:#16A34A"></div></div>
+        <div class="resp-count">1 acuerdo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title-text">Desarrollo del Sistema</div>
+      <span class="tag tag-dev">Dev</span>
+      <span class="priority-badge priority-critical">Cr&iacute;tica</span>
+    </div>
+    <div class="section-content">
+      <p><strong>Estado actual de tareas</strong></p>
+      <p>Sergio informa sobre las tareas en las que se encuentra trabajando actualmente:</p>
+      <ol>
+        <li><strong>Preparar sistema KORE para su puesta en marcha productiva:</strong>
+          <ul>
+            <li>Etapa de auditor&iacute;a del desarrollo: implementaci&oacute;n al 7/10.</li>
+            <li>Revisi&oacute;n y mejora visual del sistema KORE utilizando la herramienta stitch.withgoogle.com.</li>
+          </ul>
+        </li>
+      </ol>
+      <p><strong>Pr&oacute;ximas tareas</strong></p>
+      <ol>
+        <li><strong>Plataforma funcional al 100%:</strong> no se detectan desarrollos importantes que determinen un desv&iacute;o superior a 3 semanas para pasar a producci&oacute;n. Actualmente nos encontramos en la primera semana de este per&iacute;odo.</li>
+        <li><strong>B&uacute;squeda de clientes Beta:</strong> el objetivo es conseguir 20 clientes que utilicen KORE. Esta tarea debe realizarse en conjunto con el &Aacute;rea Comercial. Se incorporan Val y Carlos para la b&uacute;squeda de estos clientes.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title-text">Estrategias Comerciales</div>
+      <span class="tag tag-comercial">Comercial</span>
+      <span class="priority-badge priority-critical">Cr&iacute;tica</span>
+    </div>
+    <div class="section-content">
+      <p><strong>Sistema de seguimiento de campa&ntilde;as</strong></p>
+      <p>Se propone la creaci&oacute;n de un sistema de seguimiento de estrategias comerciales: una plataforma tipo bit&aacute;cora para el &aacute;rea audiovisual, donde se registren las distintas etapas en la generaci&oacute;n de una campa&ntilde;a de marketing.</p>
+      <p>Cada campa&ntilde;a genera la activaci&oacute;n de un tablero comercial que debe realizar seguimiento en l&iacute;nea del estado de la campa&ntilde;a. Ejemplo del flujo:</p>
+      <ul>
+        <li>Si por Sniper Digital apuntamos a un segmento de 2.500 vistos, ese ser&iacute;a nuestro &ldquo;N&rdquo; total de campa&ntilde;a.</li>
+        <li>Se solicita a Meta el dato de &ldquo;c&oacute;mo nos fue en la campa&ntilde;a enviada&rdquo;, obteniendo los clicks en el Reels asociado.</li>
+        <li>Esa informaci&oacute;n, cruzada con los clientes que efectivamente contrataron KORE, entrega el flujo completo de b&uacute;squeda de cliente y valor.</li>
+      </ul>
+      <p><strong>Frecuencia de campa&ntilde;as</strong></p>
+      <p>Se determin&oacute; que las campa&ntilde;as que gatilla Sniper Digital son diarias, establecidas con d&iacute;a de inicio y t&eacute;rmino definidos.</p>
+      <p><strong>Canales de contacto con el cliente</strong></p>
+      <p>Se acuerda hacer seguimiento a la oferta y canal de contacto con el posible cliente KORE:</p>
+      <ul>
+        <li><strong>Sniper Digital</strong> &mdash; campa&ntilde;as gatilladas a Meta por redes sociales.</li>
+        <li><strong>Vendedor</strong> &mdash; contacto directo.</li>
+        <li><strong>Landing Page KORE</strong> &mdash; clientes que ingresan directamente.</li>
+      </ul>
+      <blockquote><strong>Importante:</strong> Todas las campa&ntilde;as comerciales deben ir acompa&ntilde;adas de una landing page comercial, con el objetivo de orientar al cliente hacia su experiencia KORE.</blockquote>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title-text">Estrategia Audiovisual</div>
+      <span class="tag tag-audiovisual">Audiovisual</span>
+      <span class="priority-badge priority-normal">Normal</span>
+    </div>
+    <div class="section-content">
+      <p><strong>Segmentaci&oacute;n de campa&ntilde;as</strong></p>
+      <p>Se conversa sobre &ldquo;&iquest;c&oacute;mo vamos a hacer campa&ntilde;as de marketing?&rdquo;. Se determina que todas las campa&ntilde;as deben considerar segmentaci&oacute;n de clientes definida por Sniper Digital:</p>
+      <ul>
+        <li>Grupo etario</li>
+        <li>Zona geogr&aacute;fica</li>
+        <li>Intereses asociados a los productos que ofrece KORE</li>
+        <li>Palabras clave</li>
+      </ul>
+      <p>La IA determina el segmento de clientes a trabajar para cada campa&ntilde;a.</p>
+
+      <p><strong>Canales de distribuci&oacute;n</strong></p>
+      <ul>
+        <li><strong>Reels</strong> &mdash; contenido de video corto para redes sociales.</li>
+        <li><strong>Web</strong> &mdash; landing pages y contenido digital.</li>
+      </ul>
+
+      <p><strong>Plan de trabajo &mdash; Producci&oacute;n de Reels</strong></p>
+      <table>
+        <thead>
+          <tr><th>Actividad</th><th>Tiempo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Gesti&oacute;n de tramoya</td><td>1 hora</td></tr>
+          <tr><td>Grabaciones de video</td><td>3 horas</td></tr>
+          <tr><td>Capturas de pantalla</td><td>2 horas</td></tr>
+          <tr><td>Edici&oacute;n de video / demo KORE</td><td>6 horas</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>12 horas (2 jornadas)</strong></td></tr>
+        </tbody>
+      </table>
+      <p>Equipamiento necesario: celular, tr&iacute;pode, micr&oacute;fono, c&aacute;mara (si es posible y necesario), vestuario.</p>
+
+      <p><strong>Conceptos creativos definidos</strong></p>
+
+      <p><strong>CORTO 1 &mdash; Video Muestra KORE</strong> (Tono: Serio / Profesional)<br>
+      Sergio realizar&aacute; una presentaci&oacute;n hablada de KORE, acompa&ntilde;ada de efectos digitales que acompa&ntilde;ar&aacute;n los comentarios del narrador. Edici&oacute;n a cargo de Crist&oacute;bal. L&iacute;nea creativa: &ldquo;lujo silencioso tecnol&oacute;gico&rdquo;. El objetivo es generar el efecto WOW orientado a nuestras campa&ntilde;as.</p>
+
+      <p><strong>CORTO 2 &mdash; J&uuml;rgen y el Mendigo</strong> (Tono: Humor directo / Sketch viral)<br>
+      Sketch de humor directo dise&ntilde;ado para enganchar al usuario que pasa los Reels. Flujo del sketch:</p>
+      <ul>
+        <li>J&uuml;rgen, nuestro presentador, bien vestido, comienza su presentaci&oacute;n de KORE.</li>
+        <li>Tropieza con un mendigo. J&uuml;rgen se enfada y lo echa.</li>
+        <li>Mientras ocurre, se acompa&ntilde;an efectos audiovisuales: buenos comentarios de KORE, im&aacute;genes de la plataforma, personas contentas generando dinero con KORE.</li>
+        <li>El mendigo con cara humilde dice: &ldquo;Tengo hambre, &iquest;me regala una moneda?&rdquo;</li>
+        <li>J&uuml;rgen revisa sus bolsillos, no tiene monedas. Empiezan a sonar los clicks &mdash; como cuando se destapa una lata de bebida &mdash; ese ser&aacute; el sonido del CRM cuando caiga una nueva oportunidad.</li>
+        <li>J&uuml;rgen, con voz de gringo australiano militar: &ldquo;Maldito mendigo, te dar&eacute; la herramienta para que ganes dinero. &iquest;Para qu&eacute; eres bueno?&rdquo;</li>
+        <li>Mendigo, con voz de pena: &ldquo;Para jugar al cachipu&#769;n, jefe.&rdquo;</li>
+        <li>J&uuml;rgen: &ldquo;Entonces, toma celular, maldito mendigo. Busca kore.com y &iexcl;mira, mira!&rdquo; &mdash; dando &eacute;nfasis en lo r&aacute;pido que es crear un servicio en la web.</li>
+        <li>Se muestra al mendigo jugando al cachipu&#769;n con tres personas: gan&oacute; $3.000 asociados al servicio de &ldquo;Jugar al cachipu&#769;n&rdquo; por un valor de $1.000 en KORE.</li>
+        <li>El mendigo termina comiendo una hamburguesa generada por las ganancias de su servicio.</li>
+        <li>Cierre: J&uuml;rgen, a&uacute;n molesto, mirando a c&aacute;mara: &ldquo;Mira, maldito ocioso de la internet, si el mendigo pudo, no seas un maldito perdedor. Genera lucas, en 5 minutos plataforma arriba. &iexcl;Dale, haz click ac&aacute;!&rdquo;</li>
+        <li>Esto acompa&ntilde;ado de efectos visuales que resaltan las virtudes de KORE con cada movimiento de J&uuml;rgen.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AGREEMENTS -->
+  <div class="card">
+    <div class="card-title">Acuerdos</div>
+
+    <table class="agreements-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Descripci&oacute;n</th>
+          <th>Responsables</th>
+          <th>Plazo</th>
+          <th>Prioridad</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="agreement-id">A-001.1</span></td>
+          <td class="agreement-desc">Dejar plataforma KORE funcional al 100% para producci&oacute;n (ventana de 3 semanas)</td>
+          <td><div class="agreement-assignees"><span class="assignee-chip">Sergio Cid</span></div></td>
+          <td class="deadline">21 Abr 2026</td>
+          <td><span class="priority-badge priority-critical">Cr&iacute;tica</span></td>
+          <td><span class="status-badge status-en-progreso">En progreso</span></td>
+        </tr>
+        <tr>
+          <td><span class="agreement-id">A-001.2</span></td>
+          <td class="agreement-desc">B&uacute;squeda de 20 clientes Beta para KORE (en conjunto con el &Aacute;rea Comercial)</td>
+          <td><div class="agreement-assignees"><span class="assignee-chip">Sergio Cid</span><span class="assignee-chip">Val</span><span class="assignee-chip">Carlos</span></div></td>
+          <td class="deadline">30 Abr 2026</td>
+          <td><span class="priority-badge priority-critical">Cr&iacute;tica</span></td>
+          <td><span class="status-badge status-pendiente">Pendiente</span></td>
+        </tr>
+        <tr>
+          <td><span class="agreement-id">A-001.3</span></td>
+          <td class="agreement-desc">Dise&ntilde;ar sistema de seguimiento de campa&ntilde;as comerciales (tablero de bit&aacute;cora)</td>
+          <td><div class="agreement-assignees"><span class="assignee-chip">Sergio Cid</span><span class="assignee-chip">Crist&oacute;bal</span></div></td>
+          <td class="deadline">14 Abr 2026</td>
+          <td><span class="priority-badge priority-alta">Alta</span></td>
+          <td><span class="status-badge status-pendiente">Pendiente</span></td>
+        </tr>
+        <tr>
+          <td><span class="agreement-id">A-001.4</span></td>
+          <td class="agreement-desc">Crear landing page comercial para acompa&ntilde;ar campa&ntilde;as de marketing</td>
+          <td><div class="agreement-assignees"><span class="assignee-chip">Sergio Cid</span></div></td>
+          <td class="deadline">14 Abr 2026</td>
+          <td><span class="priority-badge priority-alta">Alta</span></td>
+          <td><span class="status-badge status-pendiente">Pendiente</span></td>
+        </tr>
+        <tr>
+          <td><span class="agreement-id">A-001.5</span></td>
+          <td class="agreement-desc">Producci&oacute;n Corto 1: Video muestra KORE (serio/profesional) &mdash; grabaci&oacute;n + edici&oacute;n</td>
+          <td><div class="agreement-assignees"><span class="assignee-chip">Sergio Cid</span><span class="assignee-chip">Crist&oacute;bal</span></div></td>
+          <td class="deadline">14 Abr 2026</td>
+          <td><span class="priority-badge priority-alta">Alta</span></td>
+          <td><span class="status-badge status-pendiente">Pendiente</span></td>
+        </tr>
+        <tr>
+          <td><span class="agreement-id">A-001.6</span></td>
+          <td class="agreement-desc">Producci&oacute;n Corto 2: Sketch &ldquo;J&uuml;rgen y el Mendigo&rdquo; &mdash; gui&oacute;n + grabaci&oacute;n + edici&oacute;n</td>
+          <td><div class="agreement-assignees"><span class="assignee-chip">Crist&oacute;bal</span><span class="assignee-chip">Sergio Cid</span></div></td>
+          <td class="deadline">21 Abr 2026</td>
+          <td><span class="priority-badge priority-media">Media</span></td>
+          <td><span class="status-badge status-pendiente">Pendiente</span></td>
+        </tr>
+        <tr>
+          <td><span class="agreement-id">A-001.7</span></td>
+          <td class="agreement-desc">Definir segmentaci&oacute;n Sniper Digital para primera campa&ntilde;a (grupo etario, zona, intereses, keywords)</td>
+          <td><div class="agreement-assignees"><span class="assignee-chip">Crist&oacute;bal</span></div></td>
+          <td class="deadline">7 Abr 2026</td>
+          <td><span class="priority-badge priority-alta">Alta</span></td>
+          <td><span class="status-badge status-pendiente">Pendiente</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Mobile cards -->
+    <div class="agreements-mobile">
+      <div class="agreement-card">
+        <div class="agreement-card-header">
+          <span class="agreement-id">A-001.1</span>
+          <span class="priority-badge priority-critical">Cr&iacute;tica</span>
+        </div>
+        <div class="agreement-card-desc">Dejar plataforma KORE funcional al 100% para producci&oacute;n (ventana de 3 semanas)</div>
+        <div class="agreement-card-meta">
+          <span class="assignee-chip">Sergio Cid</span>
+          <span class="deadline">21 Abr 2026</span>
+          <span class="status-badge status-en-progreso">En progreso</span>
+        </div>
+      </div>
+      <div class="agreement-card">
+        <div class="agreement-card-header">
+          <span class="agreement-id">A-001.2</span>
+          <span class="priority-badge priority-critical">Cr&iacute;tica</span>
+        </div>
+        <div class="agreement-card-desc">B&uacute;squeda de 20 clientes Beta para KORE (en conjunto con el &Aacute;rea Comercial)</div>
+        <div class="agreement-card-meta">
+          <span class="assignee-chip">Sergio Cid</span>
+          <span class="assignee-chip">Val</span>
+          <span class="assignee-chip">Carlos</span>
+          <span class="deadline">30 Abr 2026</span>
+          <span class="status-badge status-pendiente">Pendiente</span>
+        </div>
+      </div>
+      <div class="agreement-card">
+        <div class="agreement-card-header">
+          <span class="agreement-id">A-001.3</span>
+          <span class="priority-badge priority-alta">Alta</span>
+        </div>
+        <div class="agreement-card-desc">Dise&ntilde;ar sistema de seguimiento de campa&ntilde;as comerciales (tablero de bit&aacute;cora)</div>
+        <div class="agreement-card-meta">
+          <span class="assignee-chip">Sergio Cid</span>
+          <span class="assignee-chip">Crist&oacute;bal</span>
+          <span class="deadline">14 Abr 2026</span>
+          <span class="status-badge status-pendiente">Pendiente</span>
+        </div>
+      </div>
+      <div class="agreement-card">
+        <div class="agreement-card-header">
+          <span class="agreement-id">A-001.4</span>
+          <span class="priority-badge priority-alta">Alta</span>
+        </div>
+        <div class="agreement-card-desc">Crear landing page comercial para acompa&ntilde;ar campa&ntilde;as de marketing</div>
+        <div class="agreement-card-meta">
+          <span class="assignee-chip">Sergio Cid</span>
+          <span class="deadline">14 Abr 2026</span>
+          <span class="status-badge status-pendiente">Pendiente</span>
+        </div>
+      </div>
+      <div class="agreement-card">
+        <div class="agreement-card-header">
+          <span class="agreement-id">A-001.5</span>
+          <span class="priority-badge priority-alta">Alta</span>
+        </div>
+        <div class="agreement-card-desc">Producci&oacute;n Corto 1: Video muestra KORE (serio/profesional) &mdash; grabaci&oacute;n + edici&oacute;n</div>
+        <div class="agreement-card-meta">
+          <span class="assignee-chip">Sergio Cid</span>
+          <span class="assignee-chip">Crist&oacute;bal</span>
+          <span class="deadline">14 Abr 2026</span>
+          <span class="status-badge status-pendiente">Pendiente</span>
+        </div>
+      </div>
+      <div class="agreement-card">
+        <div class="agreement-card-header">
+          <span class="agreement-id">A-001.6</span>
+          <span class="priority-badge priority-media">Media</span>
+        </div>
+        <div class="agreement-card-desc">Producci&oacute;n Corto 2: Sketch &ldquo;J&uuml;rgen y el Mendigo&rdquo; &mdash; gui&oacute;n + grabaci&oacute;n + edici&oacute;n</div>
+        <div class="agreement-card-meta">
+          <span class="assignee-chip">Crist&oacute;bal</span>
+          <span class="assignee-chip">Sergio Cid</span>
+          <span class="deadline">21 Abr 2026</span>
+          <span class="status-badge status-pendiente">Pendiente</span>
+        </div>
+      </div>
+      <div class="agreement-card">
+        <div class="agreement-card-header">
+          <span class="agreement-id">A-001.7</span>
+          <span class="priority-badge priority-alta">Alta</span>
+        </div>
+        <div class="agreement-card-desc">Definir segmentaci&oacute;n Sniper Digital para primera campa&ntilde;a (grupo etario, zona, intereses, keywords)</div>
+        <div class="agreement-card-meta">
+          <span class="assignee-chip">Crist&oacute;bal</span>
+          <span class="deadline">7 Abr 2026</span>
+          <span class="status-badge status-pendiente">Pendiente</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEXT MEETING -->
+  <div class="card">
+    <div class="card-title">Pr&oacute;xima Reuni&oacute;n</div>
+    <div class="next-meeting">
+      <div class="next-meeting-label">Temas a tratar</div>
+      <div class="next-meeting-topics">Seguimiento acuerdos A-001 + Avance producci&oacute;n audiovisual + Definici&oacute;n segmentaci&oacute;n primera campa&ntilde;a</div>
+    </div>
+  </div>
+
+  <!-- ACCEPTANCE -->
+  <div class="card">
+    <div class="card-title">Estado de Aceptaci&oacute;n</div>
+    <div class="acceptance-grid">
+      <div class="acceptance-card">
+        <div class="acceptance-avatar" style="background:#6366F1">SC</div>
+        <div class="acceptance-name">Sergio Cid</div>
+        <div class="acceptance-status acceptance-pending"><span class="dot dot-pending"></span> Pendiente</div>
+      </div>
+      <div class="acceptance-card">
+        <div class="acceptance-avatar" style="background:#0EA5E9">CR</div>
+        <div class="acceptance-name">Crist&oacute;bal</div>
+        <div class="acceptance-status acceptance-pending"><span class="dot dot-pending"></span> Pendiente</div>
+      </div>
+      <div class="acceptance-card">
+        <div class="acceptance-avatar" style="background:#EA580C">VA</div>
+        <div class="acceptance-name">Val</div>
+        <div class="acceptance-status acceptance-pending"><span class="dot dot-pending"></span> Pendiente</div>
+      </div>
+      <div class="acceptance-card">
+        <div class="acceptance-avatar" style="background:#16A34A">CA</div>
+        <div class="acceptance-name">Carlos</div>
+        <div class="acceptance-status acceptance-pending"><span class="dot dot-pending"></span> Pendiente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Minuta generada por <strong>KORE</strong> &mdash; ServiceOS para empresas de servicios</p>
+    <p style="margin-top:6px">31 Marzo 2026 &middot; Versi&oacute;n de solo lectura</p>
+  </div>
+
+</div>
+
+</body>
+</html>
